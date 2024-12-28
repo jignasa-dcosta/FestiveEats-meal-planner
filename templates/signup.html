@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+        SignUp
+{% endblock title %}
+
+{% block content %}
+<!-- SignUp -->
+<div class="signup-wrapper">
+    <div class="signup-container">
+         <form method="post" class="row g-4" style="padding: 30px 30px;">
+               {% csrf_token %}
+               <h2 class="mb-4 text-center ">SignUp</h2>
+               <div class="col-md-6 col-lg-6">
+                   <label for="id_first_name" class="form-label">First Name</label>
+                   {{ form.first_name }}
+               </div>
+
+               <div class="col-md-6 col-lg-6">
+                   <label for="id_last_name" class="form-label">Last Name</label>
+                   {{ form.last_name }}
+               </div>
+
+               <div class="col-md-12 col-lg-12">
+                   <label for="id_email" class="form-label">Email Address</label>
+                   {{ form.email }}
+               </div>
+
+               <div class="col-md-12 col-lg-12">
+                   <label for="id_password1" class="form-label">Password</label>
+                   <div class="input-group">
+                       {{ form.password1 }}
+                   </div>
+               </div>
+
+               <div class="col-md-12 col-lg-12">
+                   <label for="id_password2" class="form-label">Confirm Password</label>
+                   <div class="input-group">
+                       {{ form.password2 }}
+                   </div>
+               </div>
+               <button type="submit" class="btn btn-primary w-100" style="margin-top: 60px;">Sign Up</button>
+               <a href="#" class="d-block mt-3 text-decoration-none text-caption text-center">Forgot your password?</a>
+         </form>
+         <div class="image-container">
+             <img src="{% static 'images/Santa-top.png' %}" alt="Santa Claus" class="santa-img2">
+         </div>
+    </div>
+</div>
+  
+{% endblock content %}

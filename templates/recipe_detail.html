@@ -1,0 +1,139 @@
+{% extends "base_autheticated.html" %}
+{% load static %}
+{% block title %}
+    {{ recipe.title }}
+{% endblock title %}
+
+{% block content %}
+<!-- Recipe Header Section -->
+<div class="container rounded-4 shadow-sm mb-4 bg-white p-4" style="position: relative;">
+    <div class="row d-flex ">
+        <div class="col-lg-6">
+            <img src="{{ recipe.image.url }}" class="img-fluid rounded" alt="Recipe Image">
+        </div>
+
+        <div class="col-lg-5 ">
+            <h1 class="fw-bold">{{ recipe.name }}</h1>
+            <p class="text-muted">by {{ recipe.user.first_name }} {{ recipe.user.last_name }} • {{ recipe.views }} Views • {{ recipe.comments.count }} Comments • {{ recipe.saves }} Saves</p>
+            <div class="card_icon_recipe">
+                <a href="#"><i class="bi bi-bookmark-star-fill"></i></a>
+            </div>
+            <!-- Recipe Meta Info -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="badge bg-light text-dark shadow-sm me-2 py-2">Prep Time: {{ recipe.preparation_time }} mins</span>
+                    <span class="badge bg-light text-dark shadow-sm me-2 py-2">Cook Time: {{ recipe.cooking_time }} mins</span>
+                    <span class="badge bg-light text-dark shadow-sm me-2 py-2">Serving: {{ recipe.serving_options }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="container rounded-4 shadow-sm mb-4 bg-white p-4">
+    <!-- Ingredients Section -->
+    <h3 class="fw-bold">Ingredients:</h3>
+    <ul class="list-group mb-4">
+        {% for ingredient in recipe.ingredients.splitlines %}
+        <li class="list-group-item d-flex align-items-center">
+            <input class="form-check-input me-2" type="checkbox" value="" id="ingredient{{ forloop.counter }}">
+            <label class="form-check-label" for="ingredient{{ forloop.counter }}">{{ ingredient }}</label>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="container rounded-4 shadow-sm mb-4 bg-white p-4">
+    <!-- Instructions Section -->
+    <h3 class="fw-bold">Instructions:</h3>
+    <ol class="list-group list-group-numbered mb-4">
+        {% for instruction in recipe.cooking_instructions.splitlines %}
+        <li class="list-group-item">{{ instruction }}</li>
+        {% endfor %}
+    </ol>
+</div>
+
+<div class="container rounded-4 shadow-sm mb-4 bg-white p-4">
+    <!-- Cooking Note Section -->
+    <h4 class="fw-bold">Cooking Note:</h4>
+    <p>{{ recipe.additional_notes }}</p>
+</div>
+
+<!-- Comment Section -->
+<!-- Average Rating Display -->
+<div class="container rounded-4 shadow-sm mb-4 bg-white p-4">
+    <div class="mb-4">
+        <h4 class="fw-bold">Average Rating: <span class="text-warning">★★★★☆</span> (4.2/5)</h4>
+    </div>
+    
+    <!-- Add Comment Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold">Leave a Comment</h5>
+            <form>
+                <!-- Star Rating -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Your Rating:</label>
+                    <div>
+                        ★★★★★
+                    </div>
+                </div>
+                <!-- Comment Field -->
+                <div class="mb-3">
+                    <label for="commentText" class="form-label">Your Comment:</label>
+                    <textarea class="form-control" id="commentText" rows="3" placeholder="Write your comment here"></textarea>
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+<div class="container rounded-4 mb-5 bg-white p-4">
+    <!-- Display Posted Comments -->
+<h5 class="fw-bold">Comments</h5>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-2">
+            <img src="https://via.placeholder.com/50" alt="Profile Pic" class="rounded-circle me-3">
+            <div>
+                <h6 class="fw-bold mb-0">John Doe</h6>
+                <div>
+                    ★★★★★
+                </div>
+                <small class="text-muted">2 hours ago</small>
+            </div>
+        </div>
+        <p>Delicious recipe! I loved the dressing, it paired perfectly with the greens.</p>
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-secondary btn-sm">Reply</button>
+            <button class="btn btn-outline-success btn-sm">👍 Like (12)</button>
+            <button class="btn btn-outline-danger btn-sm">👎 Dislike (2)</button>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-2">
+            <img src="https://via.placeholder.com/50" alt="Profile Pic" class="rounded-circle me-3">
+            <div>
+                <h6 class="fw-bold mb-0">Jessica Smith</h6>
+                <div>
+                    ★★★★★
+                </div>
+                <small class="text-muted">1 day ago</small>
+            </div>
+        </div>
+        <p>Good recipe, but I would recommend adding a little more thyme for extra flavor.</p>
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-secondary btn-sm">Reply</button>
+            <button class="btn btn-outline-success btn-sm">👍 Like (5)</button>
+            <button class="btn btn-outline-danger btn-sm">👎 Dislike (1)</button>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

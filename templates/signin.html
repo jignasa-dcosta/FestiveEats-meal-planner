@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+        Signin
+{% endblock title %}
+
+{% block content %}
+
+          <!-- Login -->
+          <div class="login-wrapper text-center" >
+            <div class="login-container p-4 rounded shadow-lg bg-white">
+                <h2 class="mb-4">Sigin</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3 text-start">
+                        <label for="id_username" class="form-label">Email Address</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="id_password" class="form-label">Password</label>
+                        <div class="input-group">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Log In</button>
+                    <a href="#" class="d-block mt-3 text-decoration-none text-caption">Lost your password?</a>
+                </form>
+                <img src="{% static 'images/Untitled design.png' %}" alt="Santa Claus" class="santa-img">
+            </div>    
+        </div>
+
+  
+{% endblock content %}

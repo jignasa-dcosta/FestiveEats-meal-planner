@@ -1,0 +1,97 @@
+{% extends "base_autheticated.html" %}
+{% load static %}
+{% block title %}
+        Home
+{% endblock title %}
+
+{% block content %}
+
+<!-- Recipe Submission Form -->
+<!-- Recipe Submission Form -->
+<div class="recipe-container mb-5" style="width: 900px; height: auto; margin: auto;">
+    <div class="container bg-white mt-3 mb-5 p-5" style="width: 800px;">
+        <h2 class="mb-4 fw-bold text-center">Add a New Recipe</h2>
+        <form class="recipe-form text-start" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Recipe Title -->
+            <div class="mb-3">
+                <label for="id_title" class="form-label fw-bold">Recipe Title</label>
+                {{ form.name }}
+            </div>
+
+            <!-- Recipe Introduction -->
+            <div class="mb-3">
+                <label for="id_introduction" class="form-label fw-bold">Introduction</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Recipe Category -->
+            <div class="mb-3">
+                <label for="id_category" class="form-label fw-bold">Category</label>
+                {{ form.category }}
+            </div>
+
+            <!-- Recipe Dietary -->
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="id_dietary_preference" class="form-label fw-bold">Dietary Preference</label>
+                        {{ form.dietary_preference }}
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="id_difficulty_level" class="form-label fw-bold">Difficulty Level</label>
+                        {{ form.difficulty_level }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingredients List -->
+            <div class="mb-3">
+                <label for="id_ingredients" class="form-label fw-bold">Ingredients</label>
+                {{ form.ingredients }}
+            </div>
+
+            <!-- Instructions -->
+            <div class="mb-3">
+                <label for="id_instructions" class="form-label fw-bold">Instructions</label>
+                {{ form.cooking_instructions }}
+            </div>
+
+            <!-- Cooking Time -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="id_preparation_time" class="form-label fw-bold">Preparation Time (mins)</label>
+                    {{ form.preparation_time }}
+                </div>
+                <div class="col-md-4">
+                    <label for="id_cooking_time" class="form-label fw-bold">Cooking Time (mins)</label>
+                    {{ form.cooking_time }}
+                </div>
+                <div class="col-md-4">
+                    <label for="id_servings" class="form-label fw-bold">Servings</label>
+                    {{ form.serving_options }}
+                </div>
+            </div>
+
+            <!-- Additional Cooking Notes -->
+            <div class="mb-3">
+                <label for="id_additional_notes" class="form-label fw-bold">Additional Cooking Notes</label>
+                {{ form.additional_notes }}
+            </div>
+
+            <!-- Image Upload -->
+            <div class="mb-3">
+                <label for="id_image" class="form-label fw-bold">Upload Recipe Image</label>
+                {{ form.image }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 mt-5">Add Recipe</button>
+        </form>
+    </div>
+</div>
+  
+{% endblock content %}

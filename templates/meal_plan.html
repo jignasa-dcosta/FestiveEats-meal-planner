@@ -1,0 +1,73 @@
+{% extends "base_autheticated.html" %}
+{% load static %}
+
+{% block title %}
+    Meal Planner
+{% endblock title %}
+
+{% block content %}
+<div class="card_wrapper">
+    <div class="row text-center">
+        <h2 class="head_text">Meal Planner</h2>
+    </div>
+
+    <div class="row d-flex" style="margin: 0px 40px;">
+        <!-- Sidebar -->
+        <aside class="col-md-3 bg-light py-4">
+            <h4 class="text-center mb-3 mt-4" style="color: #2C3E50;">Categories</h4>
+            <ul class="list-group list-group-flush mx-4">
+                {% for category in categories %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ category.name }}
+                    <span class="badge">{{ category.user_recipes.count }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-md-9 bg-light py-5">
+            {% for category in categories %}
+            <div class="category-section mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="Category-Title">{{ category.name }}
+                        <span class="text-muted">{{ category.user_recipes.count }} items</span>
+                    </h3>
+                    <a href="{% url 'recipe_list_by_id' category.id %}">
+                        <button class="btn btn-primary">Add {{ category.name }} Ideas +</button>
+                    </a>
+                </div>
+
+                {% if category.user_recipes.exists %}
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-3">
+                    {% for mealplan in category.user_recipes %}
+                    <div class="col">
+                        <div class="card recipe_card">
+                            <div class="card_img_box">
+                                <img class="img-fluid w-100"
+                                     src="{{ mealplan.recipe.image.url|default:'images/default_recipe.png' }}">
+                                <div class="img_icon">
+                                    <a href="{% url 'remove_from_mealplan' mealplan.recipe.id %}"><i class="bi bi-trash3"></i></a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <a href="{% url 'recipe_detail' mealplan.recipe.id %}" class="nav-link"><h5 class="card-title mb-4">{{ mealplan.recipe.name }}</h5></a>
+                                <i class="bi bi-clock"></i>
+                                <span class="card-text">{{ mealplan.recipe.preparation_time }} mins</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-light text-center">
+                    <p>No items selected for this category.</p>
+                </div>
+                {% endif %}
+            </div>
+            <hr>
+            {% endfor %}
+        </main>
+    </div>
+</div>
+{% endblock content %}
