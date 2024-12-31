@@ -58,7 +58,7 @@ Follow these steps to set up and run the project locally:
 - **Database:** SQLite
 
 ## Demo and Presentation
-**Google Drive Link:** https://drive.google.com/file/d/1YszPPyFhOO4MyZ_EFMdUqAz0GXabgTvf/view?usp=drive_link
+**Google Drive Link:** https://drive.google.com/file/d/1hezC-vvJFlnrREqS008W1PUJQR__J-tQ/view?usp=sharing
 
 ## 🚀 Usage
 
