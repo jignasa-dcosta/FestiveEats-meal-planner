@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.conf import settings
 
+
+
 # Create your models here.
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # Make email unique
@@ -103,7 +105,59 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def average_rating(self):
+        """Calculate the average rating of the recipe."""
+        return self.rating_comments.aggregate(models.Avg('rating'))['rating__avg'] or 0
 
+    @property
+    def total_comments(self):
+        """Get the total number of comments for the recipe."""
+        return self.comments.count()
+
+    def __str__(self):
+        return self.name
+
+
+# #Rating Model
+# class Rating(models.Model):
+#     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ratings')
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_ratings')
+#     rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])  # 1-5 scale
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     class Meta:
+#         unique_together = ('recipe', 'user')  # Prevent duplicate ratings by the same user for the same recipe
+
+#     def __str__(self):
+#         return f'{self.user.username} - {self.recipe.name} - {self.rating}'
+
+
+# #Comment Model
+# class Comment(models.Model):
+#     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_comments')
+#     comment = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f'{self.user.username} - {self.recipe.name}'
+
+
+# Combined Rating and Comment Model
+class RatingComment(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='rating_comments')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_rating_comments')
+    rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)], null=True, blank=True)  # 1-5 scale
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('recipe', 'user')  # Prevent duplicate entries by the same user for the same recipe
+
+    def __str__(self):
+        return f'{self.user.username} - {self.recipe.name} - {self.rating} - {self.comment}'
 
 class MealPlan(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='meal_plans')

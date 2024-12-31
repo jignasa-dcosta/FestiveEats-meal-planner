@@ -2,9 +2,10 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
-from .models import CustomUser, Category, Recipe, MealPlan
-from .forms import CustomUserCreationForm,SigninForm,RecipeForm,RecipeFilterForm,AddtoMealForm
+from .models import CustomUser, Category, Recipe, MealPlan, RatingComment
+from .forms import CustomUserCreationForm,SigninForm,RecipeForm,RecipeFilterForm,AddtoMealForm,RatingCommentForm
 
 # Create your views here.
 
@@ -18,10 +19,11 @@ def signin(request):
             email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=email, password=password)
-            login(request, user)
-            return redirect('category')
-        else:
-            messages.error(request, 'Invalid email or password')
+            if user is not None:
+                login(request, user)
+                return redirect('category')
+            else:
+                messages.error(request, 'Invalid email or password')
     else:
         form = SigninForm()
     return render(request, 'signin.html', {'form': form})
@@ -48,6 +50,7 @@ def category(request):
     return render(request,"category.html",{'categories': categories})
 
 def recipe_list(request, category_id=None, category=None):
+    query = request.GET.get('q')  # Get the search query from the URL parameter
     if category_id:
         # Handling "Add Category Ideas" button from Meal Plan page
         category = get_object_or_404(Category, id=category_id)
@@ -62,20 +65,60 @@ def recipe_list(request, category_id=None, category=None):
         # Show all recipes
         recipes = Recipe.objects.all()
         active_category = 'all'
+    
+    # Handle search query
+    if query:
+        recipes = recipes.filter(
+            Q(name__icontains=query) | Q(ingredients__icontains=query)
+        )
 
     categories = Category.objects.all()
+
+     # Add user's meal plan recipe IDs to the context
+    user_meal_plan_recipes = []
+    if request.user.is_authenticated:
+        user_meal_plan_recipes = MealPlan.objects.filter(user=request.user).values_list('recipe_id', flat=True)
 
     context = {
         'recipes': recipes,
         'categories': categories,
         'active_category': active_category,
+        'search_query': query,
+        'user_meal_plan_recipes': user_meal_plan_recipes,
     }
     return render(request, 'recipe_list.html', context)
 
-def recipe_detail(request,id):
-    recipe = Recipe.objects.get(id=id)
+
+def recipe_detail(request, id):
     recipe = get_object_or_404(Recipe, id=id)
-    return render(request,"recipe_detail.html",{'recipe': recipe})
+    
+    if request.method == 'POST':
+        form = RatingCommentForm(request.POST)
+        
+        if form.is_valid():
+            rating_comment, created = RatingComment.objects.get_or_create(
+                recipe=recipe,
+                user=request.user,
+                defaults={'rating': form.cleaned_data['rating'], 'comment': form.cleaned_data['comment']}
+            )
+            if not created:
+                rating_comment.rating = form.cleaned_data['rating']
+                rating_comment.comment = form.cleaned_data['comment']
+                rating_comment.save()
+            
+            return redirect('recipe_detail', id=recipe.id)
+    else:
+        form = RatingCommentForm()
+
+    # Fetch existing ratings and comments
+    rating_comments = RatingComment.objects.filter(recipe=recipe).select_related('user')
+
+    context = {
+        'recipe': recipe,
+        'form': form,
+        'rating_comments': rating_comments,
+    }
+    return render(request, "recipe_detail.html", context)
 
 def add_recipe(request):
     if request.method == 'POST':
@@ -84,7 +127,7 @@ def add_recipe(request):
             recipe = form.save(commit=False)
             recipe.user = request.user
             recipe.save()
-            return redirect('category')  # Redirect to the category page or any other page
+            return redirect('recipe_list')  # Redirect to the category page or any other page
     else:
         form = RecipeForm()
     return render(request, 'add_recipe.html', {'form': form})

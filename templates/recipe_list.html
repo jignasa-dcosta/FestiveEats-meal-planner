@@ -21,9 +21,7 @@
         </a>
         {% endfor %}
  </div>
- 
 </div> <!--Filter row-->
-
 
 
 <div class="row mx-4">
@@ -36,17 +34,24 @@
                 <div class="card_img_box">
                     <img class="img-fluid w-100" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
                     <div class="img_icon">
+                    {% if recipe.id in user_meal_plan_recipes %}
+                    <!-- If recipe is in meal plan, show trash icon -->
+                        <a href="{% url 'remove_from_mealplan' recipe.id %}"><i class="bi bi-trash3"></i></a>
+                        
+                        {% else %}
+                        <!-- If not in meal plan, show add icon -->
                         <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle toggle-icon"></i></a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
                     <a href="{% url 'recipe_detail' recipe.id %}" class="nav-link"><h5 class="card-title mb-4" style="min-height: 48px;">{{ recipe.name }}</h5></a>
-                    <i class="bi bi-star" style="color:#F0AD4E;"></i>
-                    <span class="card-text">{{ recipe.rating }}/5</span>
+                    <i class="bi bi-star-fill" style="color:#F0AD4E;"></i>
+                    <span class="card-text">{{ recipe.average_rating|floatformat:1 }}/5</span>
                     <i class="bi bi-clock ms-3"></i>
                     <span class="card-text">{{ recipe.cooking_time }} mins</span>
                     <div class="card_icon">
-                        <a href="#"><i class="bi bi-bookmark-star-fill"></i></a>
+                        <a href="#"><i class="bi bi-bookmark-star"></i></a>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import CustomUser,Recipe,MealPlan,Category
+from .models import CustomUser,Recipe,MealPlan,Category,RatingComment
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
@@ -115,5 +115,29 @@ class AddtoMealForm(forms.Form):
     meal_id = forms.ModelChoiceField(queryset=MealPlan.objects.all(), widget=forms.HiddenInput())
     category_id = forms.ModelChoiceField(queryset=Category.objects.all(), widget=forms.HiddenInput())
 
+# class RatingForm(forms.ModelForm):
+#     class Meta:
+#         model = Rating
+#         fields = ['rating']
+#         widgets = {
+#             'rating': forms.Select(choices=[(i, i) for i in range(1, 6)], attrs={'class': 'form-select'}),
+#         }
 
 
+# class CommentForm(forms.ModelForm):
+#     class Meta:
+#         model = Comment
+#         fields = ['comment']
+#         widgets = {
+#             'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Write your comment here'}),
+#         }
+
+
+class RatingCommentForm(forms.ModelForm):
+    class Meta:
+        model = RatingComment
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.Select(choices=[(i, i) for i in range(1, 6)], attrs={'class': 'form-select'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Write your comment here'}),
+        }
