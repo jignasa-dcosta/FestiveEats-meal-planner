@@ -35,11 +35,12 @@ Follow these steps to set up and run the project locally:
 
 3. **Install Dependencies:**
    ```bash
-   pip install -r requirements.txt
+   pip install Pillow
    ```
 
 4. **Apply Database Migrations:**
    ```bash
+   python manage.py makemigrations
    python manage.py migrate
    ```
 
@@ -55,6 +56,9 @@ Follow these steps to set up and run the project locally:
 - **Backend:** Django
 - **Frontend:** HTML5, CSS3, Bootstrap
 - **Database:** SQLite
+
+## Demo and Presentation
+**Google Drive Link:** 
 
 ## 🚀 Usage
 
