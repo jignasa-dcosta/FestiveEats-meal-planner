@@ -40,7 +40,7 @@
                         
                         {% else %}
                         <!-- If not in meal plan, show add icon -->
-                        <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle toggle-icon toggle-icon"></i></a>
+                        <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle toggle-icon"></i></a>
                         {% endif %}
                     </div>
                 </div>
@@ -61,7 +61,7 @@
 </div>
 </div>
 
-<script>
+{% comment %} <script>
     // Select all filter buttons
     const filterButtons = document.querySelectorAll('.filter-btn');
 
@@ -91,6 +91,6 @@
             }
         });
     });
-</script>
+</script> {% endcomment %}
   
 {% endblock content %}
