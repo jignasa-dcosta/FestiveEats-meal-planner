@@ -27,6 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['railway.app', 'festiveeats-meal-planner-production.up.railway.app', '127.0.0.1', 'localhost']
 
+CSRF_TRUSTED_ORIGINS = ['https://hospitalmgm-232d.up.railway.app']
 
 # Application definition
 
