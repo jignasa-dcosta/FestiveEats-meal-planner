@@ -36,11 +36,11 @@
                     <div class="img_icon">
                     {% if recipe.id in user_meal_plan_recipes %}
                     <!-- If recipe is in meal plan, show trash icon -->
-                        <a href="{% url 'remove_from_mealplan' recipe.id %}"><i class="bi bi-trash3 toggle-icon"></i></a>
+                        <a href="{% url 'remove_from_mealplan' recipe.id %}"><i class="bi bi-trash3"></i></a>
                         
                         {% else %}
                         <!-- If not in meal plan, show add icon -->
-                        <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle toggle-icon"></i></a>
+                        <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle"></i></a>
                         {% endif %}
                     </div>
                 </div>

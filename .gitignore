@@ -1,3 +1,6 @@
 # db.sqlite3
 /media/
 /static_cdn/
+
+# Don't ignore source static files
+# static/ 
