@@ -36,11 +36,11 @@
                     <div class="img_icon">
                     {% if recipe.id in user_meal_plan_recipes %}
                     <!-- If recipe is in meal plan, show trash icon -->
-                        <a href="{% url 'remove_from_mealplan' recipe.id %}"><i class="bi bi-trash3"></i></a>
+                        <a href="{% url 'remove_from_mealplan' recipe.id %}"><i class="bi bi-trash3 toggle-icon"></i></a>
                         
                         {% else %}
                         <!-- If not in meal plan, show add icon -->
-                        <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle toggle-icon"></i></a>
+                        <a href="{% url 'add_to_mealplan' recipe.id %}"><i class="bi bi-plus-circle toggle-icon toggle-icon"></i></a>
                         {% endif %}
                     </div>
                 </div>
@@ -62,32 +62,35 @@
 </div>
 
 <script>
+    // Select all filter buttons
     const filterButtons = document.querySelectorAll('.filter-btn');
 
-// Add click event listener to each button
-filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Remove 'active' class from all buttons
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        
-        // Add 'active' class to the clicked button
-        button.classList.add('active');
-    });
-});
-
-
-toggleIcons.forEach(icon => {
-            icon.addEventListener('click', function() {
-                if (icon.classList.contains('bi-plus-circle')) {
-                    icon.classList.remove('bi-plus-circle');
-                    icon.classList.add('bi-trash3');
-                } else {
-                    icon.classList.remove('bi-trash3');
-                    icon.classList.add('bi-plus-circle');
-                }
-            });
+    // Add click event listener to each filter button
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove 'active' class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add 'active' class to the clicked button
+            button.classList.add('active');
         });
+    });
 
+    // Select all icons you want to toggle (e.g., using a specific class like .toggle-icon)
+    const toggleIcons = document.querySelectorAll('.toggle-icon'); // ✅ Add this line to define toggleIcons
+
+    // Add click event listener to each toggle icon
+    toggleIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+            if (icon.classList.contains('bi-plus-circle')) {
+                icon.classList.remove('bi-plus-circle');
+                icon.classList.add('bi-trash3');
+            } else {
+                icon.classList.remove('bi-trash3');
+                icon.classList.add('bi-plus-circle');
+            }
+        });
+    });
 </script>
   
 {% endblock content %}
