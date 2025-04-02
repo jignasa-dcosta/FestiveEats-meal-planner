@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e9tu@dwx$o8j2p&(69^#nm@0&i=!fd-@d&nur^sll^$+n27l2$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['railway.app', 'festiveeats-meal-planner-production.up.railway.app', '127.0.0.1', 'localhost']
 
@@ -132,7 +132,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 if DEBUG:
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+    MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
 # Use WhiteNoise to serve media files in production
 if not DEBUG:
