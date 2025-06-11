@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e9tu@dwx$o8j2p&(69^#nm@0&i=!fd-@d&nur^sll^$+n27l2$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['railway.app', 'festiveeats-meal-planner-production.up.railway.app', '127.0.0.1', 'localhost']
 
